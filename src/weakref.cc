@@ -150,7 +150,8 @@ NAN_WEAK_CALLBACK(TargetCallback) {
     NanNew<Object>(cont->cbinfo->persistent),
     NanNew<Object>(cont->emitter)
   };
-  globalCallback->Call(2, argv);
+  v8::Local<v8::Function> globalCallbackDirect = globalCallback->GetFunction();
+  globalCallbackDirect->Call(NanGetCurrentContext()->Global(), 2, argv);
 
   // clean everything up
   Local<Object> proxy = NanNew<Object>(cont->proxy);
